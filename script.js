@@ -6,19 +6,19 @@ function writePassword() {
 
     //Numbers
 
-    var numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+    var Numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
 
     //Uppercase letters
 
-    var upperAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    var UpperAlph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
     //Lowercase letters
 
-    var lowerAlph = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    var LowerAlph = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     
     //Special Characters
     
-    var specialCharacters = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
+    var Special = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/',
         ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|',
         '}', '~',];
 
@@ -40,17 +40,35 @@ function writePassword() {
     let includeNumbers = confirm('Include numbers?');
     let includeLowerAlph = confirm('Include lowercase characters?');
     let includeUpperAlph = confirm('Include uppercase characters?');
-    let includeSpecialCharacters = confirm('Include special characters?');
+    let includeSpecial = confirm('Include special characters?');
 
     //Alert to include at least one character type if none selected
 
-    if (!includeLowerAlph, !includeNumbers, !includeSpecialCharacters, !includeUpperAlph){
+    if (!(includeLowerAlph || includeNumbers || includeSpecial || includeUpperAlph)){
         alert('Please select at least one character type.')
         return;
     }
-        
 
-    var password = generatePassword();
+
+    // Setting Criteria for characters
+
+    if (includeLowerAlph) space = space.concat(LowerAlph);
+    if (includeUpperAlph) space = space.concat(UpperAlph);
+    if (includeNumbers) space = space.concat(Numbers);
+    if (includeSpecial) space = space.concat(Special);
+
+    // Function to generate random password
+
+    function generatePassword(length, characterSpace) {
+        var password = '';
+        for (let i = 0; i < length; i++) {
+            let randomIndex = Math.floor(Math.random() * characterSpace.length);
+            password += characterSpace[randomIndex];
+        }
+        return password;
+    }
+
+    var password = generatePassword(numberOfCharacters, space);
     var passwordText = document.querySelector("#password");
 
     passwordText.value = password;
